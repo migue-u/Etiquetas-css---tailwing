@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía visual de Tailwind CSS v4</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+
+    <!-- Animaciones personalizadas: en Tailwind v4 se declaran con @theme -->
+    <style type="text/tailwindcss">
+        @theme {
+            --animate-bounce-x: bounce-x 1s infinite;
+            --animate-ping-slow: ping-slow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+            --animate-scale-y: scale-y 1.4s ease-in-out infinite;
+            --animate-zoom-in: zoom-in 0.6s ease-out both;
+            --animate-slide-up: slide-up 0.7s ease-out both;
+            --animate-fade-in: fade-in 0.8s ease-out both;
+            --animate-rotate-45: rotate-45 0.7s ease-out both;
+            --animate-slide-fade-up: slide-fade-up 0.8s ease-out both;
+            --animate-bounce-scale-down: bounce-scale-down 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            --animate-flip-x: flip-x 0.9s ease-in-out both;
+            --animate-pulse-slow: pulse-slow 3s ease-in-out infinite;
+            --animate-wiggle-slow: wiggle-slow 2s ease-in-out infinite;
+            --animate-blink-slow: blink-slow 2s steps(1) infinite;
+            --animate-slide-bounce-up: slide-bounce-up 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            --animate-heartbeat-slow: heartbeat-slow 2s ease-in-out infinite;
+            --animate-rubberband-slow: rubberband-slow 2s ease-in-out infinite;
+            --animate-head-shake-slow: head-shake-slow 2s ease-in-out infinite;
+            --animate-jello-slow: jello-slow 2s ease-in-out infinite;
+            --animate-tada-slow: tada-slow 2s ease-in-out infinite;
+            --animate-bounce-in-left: bounce-in-left 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            --animate-bounce-in-right: bounce-in-right 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            --animate-bounce-in-top: bounce-in-top 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            --animate-bounce-in-bottom: bounce-in-bottom 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            --animate-fade-in-left: fade-in-left 0.8s ease-out both;
+            --animate-fade-in-right: fade-in-right 0.8s ease-out both;
+            --animate-fade-in-top: fade-in-top 0.8s ease-out both;
+            --animate-fade-in-bottom: fade-in-bottom 0.8s ease-out both;
+            --animate-slide-in-left: slide-in-left 0.8s ease-out both;
+            --animate-slide-in-right: slide-in-right 0.8s ease-out both;
+            --animate-slide-in-top: slide-in-top 0.8s ease-out both;
+            --animate-slide-in-bottom: slide-in-bottom 0.8s ease-out both;
+
+            @keyframes bounce-x {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(1.5rem); }
+            }
+            @keyframes ping-slow {
+                75%, 100% { transform: scale(2); opacity: 0; }
+            }
+            @keyframes scale-y {
+                0%, 100% { transform: scaleY(0.4); }
+                50% { transform: scaleY(1); }
+            }
+            @keyframes zoom-in {
+                from { opacity: 0; transform: scale(0.4); }
+                to { opacity: 1; transform: scale(1); }
+            }
+            @keyframes slide-up {
+                from { opacity: 0; transform: translateY(80%); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes fade-in {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes rotate-45 {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(45deg); }
+            }
+            @keyframes slide-fade-up {
+                from { opacity: 0; transform: translateY(24px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes bounce-scale-down {
+                0% { transform: scale(1.6); }
+                60% { transform: scale(0.9); }
+                100% { transform: scale(1); }
+            }
+            @keyframes flip-x {
+                0% { transform: rotateX(180deg); }
+                100% { transform: rotateX(0deg); }
+            }
+            @keyframes pulse-slow {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.35; }
+            }
+            @keyframes wiggle-slow {
+                0%, 100% { transform: rotate(-6deg); }
+                50% { transform: rotate(6deg); }
+            }
+            @keyframes blink-slow {
+                0%, 49% { opacity: 1; }
+                50%, 100% { opacity: 0; }
+            }
+            @keyframes slide-bounce-up {
+                0% { opacity: 0; transform: translateY(100%); }
+                70% { transform: translateY(-10%); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes heartbeat-slow {
+                0%, 100% { transform: scale(1); }
+                20% { transform: scale(1.2); }
+                40% { transform: scale(0.95); }
+                60% { transform: scale(1.1); }
+                80% { transform: scale(0.98); }
+            }
+            @keyframes rubberband-slow {
+                0%, 100% { transform: scale(1); }
+                30% { transform: scaleX(1.25) scaleY(0.75); }
+                50% { transform: scaleX(0.85) scaleY(1.15); }
+                70% { transform: scaleX(1.1) scaleY(0.9); }
+            }
+            @keyframes head-shake-slow {
+                0%, 100% { transform: translateX(0) rotate(0); }
+                20% { transform: translateX(-6px) rotate(-4deg); }
+                40% { transform: translateX(6px) rotate(4deg); }
+                60% { transform: translateX(-4px); }
+                80% { transform: translateX(4px); }
+            }
+            @keyframes jello-slow {
+                0%, 100% { transform: skew(0deg, 0deg); }
+                30% { transform: skew(-8deg, -3deg); }
+                50% { transform: skew(6deg, 2deg); }
+                70% { transform: skew(-3deg, -1deg); }
+            }
+            @keyframes tada-slow {
+                0% { transform: scale(1) rotate(0deg); }
+                15% { transform: scale(0.9) rotate(-4deg); }
+                40% { transform: scale(1.15) rotate(4deg); }
+                70% { transform: scale(1.1) rotate(-3deg); }
+                100% { transform: scale(1) rotate(0deg); }
+            }
+            @keyframes bounce-in-left {
+                from { opacity: 0; transform: translateX(-120%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes bounce-in-right {
+                from { opacity: 0; transform: translateX(120%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes bounce-in-top {
+                from { opacity: 0; transform: translateY(-120%); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes bounce-in-bottom {
+                from { opacity: 0; transform: translateY(120%); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes fade-in-left {
+                from { opacity: 0; transform: translateX(-24px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes fade-in-right {
+                from { opacity: 0; transform: translateX(24px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes fade-in-top {
+                from { opacity: 0; transform: translateY(-24px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes fade-in-bottom {
+                from { opacity: 0; transform: translateY(24px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes slide-in-left {
+                from { opacity: 0; transform: translateX(-100%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes slide-in-right {
+                from { opacity: 0; transform: translateX(100%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes slide-in-top {
+                from { opacity: 0; transform: translateY(-100%); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes slide-in-bottom {
+                from { opacity: 0; transform: translateY(100%); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="cards-grid">
+
+            <!-- ===== Texto y color (1 a 22) ===== -->
+            <div class="card">
+                <h1 class="tittle">Color en el texto #1</h1>
+                <p class="text-blue-300">Este texto está en azul con text-blue-300.</p>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Color de fondo #2</h1>
+                <div class="bg-yellow-500 p-2 text-black">Fondo amarillo con texto negro.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Sombra de texto #3</h1>
+                <div class="box bg-slate-800 text-xl font-bold text-white text-shadow-lg text-shadow-pink-400">Sombra grande y rosa detrás del texto.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Color del borde #4</h1>
+                <div class="border border-pink-400 p-2">Borde rosa de 1 píxel.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Alineación de texto #5</h1>
+                <div class="text-right">Este texto está alineado a la derecha.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Decoración de texto #6</h1>
+                <div class="underline">Este texto está subrayado.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Transformación de texto #7</h1>
+                <div class="uppercase">este texto se muestra en mayúsculas</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Sombra de caja #8</h1>
+                <div class="box shadow-lg shadow-pink-500/50">Sombra grande de caja, rosa al 50%.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Opacidad #9</h1>
+                <div class="opacity-75">Este bloque está al 75% de opacidad.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Familia de fuentes #10</h1>
+                <div class="font-serif">Esta frase usa una fuente con serifas.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Tamaño de fuente #11</h1>
+                <div class="text-xs">Texto en tamaño extra pequeño.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Grosor de fuente #12</h1>
+                <div class="font-semibold">Texto con grosor seminegrita.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Estilo de fuente #13</h1>
+                <div class="italic">Este texto está en cursiva.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Desbordamiento de texto #14</h1>
+                <div class="w-40 truncate">Este texto es demasiado largo y se corta con puntos suspensivos.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Color de decoración #15</h1>
+                <div class="underline decoration-yellow-400">Subrayado con la línea de color amarillo.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Estilo de decoración #16</h1>
+                <div class="underline decoration-dotted">Subrayado con línea punteada.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Grosor de decoración #17</h1>
+                <div class="underline decoration-4">Subrayado de 4 píxeles de grosor.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Alineación de última línea #18</h1>
+                <div class="[text-align-last:right]">La primera línea va normal; la última se alinea a la derecha.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Justificar texto #19</h1>
+                <div class="text-justify">El texto justificado ocupa todo el ancho disponible, de izquierda a derecha.</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Salto de línea #20</h1>
+                <div class="[line-break:anywhere]">PalabraMuyLargaSinEspaciosQueSeCortaEnCualquierPunto</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Salto de palabra #21</h1>
+                <div class="break-all">PalabraMuyLargaSinEspaciosQueSeRompePorCualquierLetra</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Transformaciones #22</h1>
+                <div class="box rotate-45">Giro de 45°</div>
+            </div>
+
+        
+            <div class="card">
+                <h1 class="tittle">Transición #23</h1>
+                <div class="box transition hover:bg-pink-500 hover:text-white">Pasa el mouse</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Transition-colors #24</h1>
+                <div class="text-slate-700 transition-colors hover:text-pink-600">Solo cambia el color</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Duración #25</h1>
+                <div class="box transition-colors duration-500 hover:bg-yellow-300">0.5 segundos</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Curva ease-in #26</h1>
+                <div class="box transition-colors duration-300 ease-in hover:bg-blue-300">Empieza lento</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Retardo #27</h1>
+                <div class="box transition-colors delay-200 hover:bg-green-300">Espera 0.2s</div>
+            </div>
+
+            <!-- ===== Animaciones (28 a 35) ===== -->
+            <div class="card">
+                <h1 class="tittle">animate-spin #28</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-spin"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-ping #29</h1>
+                <div class="mx-auto size-10 rounded-full bg-pink-500 animate-ping"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Duración de animación #30</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-spin [animation-duration:0.3s]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Retardo de animación #31</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-bounce [animation-delay:0.5s]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Repeticiones #32</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-bounce [animation-iteration-count:3]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Dirección #33</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-bounce [animation-direction:alternate]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Fill-mode #34</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-bounce [animation-fill-mode:forwards]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">Play-state #35</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-spin [animation-play-state:paused]"></div>
+                <p class="mt-2 text-center text-xs">Animación en pausa</p>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">origin-center #36</h1>
+                <div class="box mx-auto w-24 origin-center rotate-12">Gira del centro</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scale-150 #37</h1>
+                <div class="box mx-auto w-20 scale-150 text-center">150%</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">rotate-90 #38</h1>
+                <div class="box mx-auto w-24 rotate-90 text-center">90°</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">skew-x-6 #39</h1>
+                <div class="box mx-auto w-24 skew-x-6 text-center">Inclinado</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">-translate-x-4 #40</h1>
+                <div class="box w-24 -translate-x-4">A la izquierda</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">perspective + rotate-y #41</h1>
+                <div class="perspective-[500px] py-2">
+                    <div class="box mx-auto w-24 rotate-y-45 text-center">3D</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backface-hidden #42</h1>
+                <div class="flex gap-2 [perspective:400px]">
+                    <div class="w-1/2 rounded border border-dashed border-slate-300 p-1">
+                        <div class="box rotate-y-180 backface-visible text-center text-xs">visible</div>
+                    </div>
+                    <div class="w-1/2 rounded border border-dashed border-slate-300 p-1">
+                        <div class="box rotate-y-180 backface-hidden text-center text-xs">oculto</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== Bordes (43 a 48) ===== -->
+            <div class="card">
+                <h1 class="tittle">rounded-lg #43</h1>
+                <div class="box rounded-lg">Esquinas suaves</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-4 #44</h1>
+                <div class="border-4 border-pink-400 p-2">Borde grueso</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-dashed #45</h1>
+                <div class="border-2 border-dashed border-pink-400 p-2">Borde con rayas</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-collapse #46</h1>
+                <table class="border-collapse border border-pink-400 text-xs">
+                    <tr>
+                        <td class="border border-pink-400 px-3 py-1">A</td>
+                        <td class="border border-pink-400 px-3 py-1">B</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-pink-400 px-3 py-1">C</td>
+                        <td class="border border-pink-400 px-3 py-1">D</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-separate #47</h1>
+                <table class="border-separate border-spacing-4 text-xs">
+                    <tr>
+                        <td class="border border-pink-400 px-3 py-1">A</td>
+                        <td class="border border-pink-400 px-3 py-1">B</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-pink-400 px-3 py-1">C</td>
+                        <td class="border border-pink-400 px-3 py-1">D</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">outline-none #48</h1>
+                <input class="outline-none w-full rounded border border-pink-400 px-2 py-1 focus:border-pink-600" placeholder="Enfócame">
+            </div>
+
+            <!-- ===== Desbordamiento y control (49 a 56) ===== -->
+            <div class="card">
+                <h1 class="tittle">overflow-hidden #49</h1>
+                <div class="h-16 w-28 overflow-hidden bg-slate-200">
+                    <div class="h-32 w-32 bg-pink-400 p-1 text-xs text-white">Me salgo de la caja</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">overflow-x-hidden #50</h1>
+                <div class="w-32 overflow-x-hidden whitespace-nowrap bg-slate-200 p-1">
+                    <span class="bg-pink-400 text-xs text-white">Este texto es larguísimo y no salta de línea</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">overflow-y-hidden #51</h1>
+                <div class="h-14 w-32 overflow-y-hidden bg-slate-200 p-1">
+                    <div class="h-32 bg-pink-400 text-xs text-white">Contenido muy alto</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">relative z-10 #52</h1>
+                <div class="relative h-20">
+                    <div class="absolute top-2 left-2 size-16 bg-pink-300 p-1 text-xs">abajo</div>
+                    <div class="absolute top-8 left-12 z-10 size-16 bg-yellow-300 p-1 text-xs">encima</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">pointer-events-none #53</h1>
+                <button class="pointer-events-none rounded bg-pink-300 px-2 py-1 text-xs">No recibo clics</button>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">resize-none #54</h1>
+                <textarea class="resize-none w-full rounded border border-pink-400 p-1 text-xs" rows="2">No me puedo estirar</textarea>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">cursor-pointer #55</h1>
+                <div class="box cursor-pointer text-center">Pasa el mouse por aquí</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">select-none #56</h1>
+                <div class="box select-none">No puedes seleccionarme</div>
+            </div>
+
+            <!-- ===== Filtros y efectos (57 a 63) ===== -->
+            <div class="card">
+                <h1 class="tittle">grayscale-50 #57</h1>
+                <div class="h-16 rounded bg-linear-to-r from-pink-500 to-yellow-400 grayscale-50"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-blur #58</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 backdrop-blur-[10px] p-2 text-center text-xs font-semibold">Desenfoca detrás</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">mix-blend-screen #59</h1>
+                <div class="bg-pink-500 p-2">
+                    <div class="bg-yellow-400 mix-blend-screen p-2 text-center text-xs font-semibold">Mezclado</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">clip-path #60</h1>
+                <div class="mx-auto size-20 bg-pink-500 [clip-path:polygon(50%_0%,_61%_35%,_98%_35%,_68%_57%,_79%_91%,_50%_70%,_21%_91%,_32%_57%,_2%_35%,_39%_35%)]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">will-change-transform #61</h1>
+                <div class="box will-change-transform transition-transform duration-300 hover:scale-110">Aviso al navegador</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">isolate #62</h1>
+                <div class="isolate bg-pink-300 p-2">
+                    <div class="bg-yellow-400 mix-blend-multiply p-2 text-center text-xs">Capa aislada</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">float-left + shape-outside #63</h1>
+                <div class="size-10 float-left rounded-full bg-pink-400 [shape-outside:circle(50%)]"></div>
+                <p class="text-xs">El texto rodea el círculo por la derecha y por abajo, siguiendo su forma.</p>
+            </div>
+
+            <!-- ===== Margen y relleno (64 a 73) ===== -->
+            <div class="card">
+                <h1 class="tittle">m-4 #64</h1>
+                <div class="bg-slate-200"><div class="m-4 bg-pink-400 p-1 text-xs text-white">1rem por fuera</div></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">mt-8 #65</h1>
+                <div class="bg-slate-200"><div class="mt-8 bg-pink-400 p-1 text-xs text-white">2rem arriba</div></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">mr-12 #66</h1>
+                <div class="bg-slate-200"><div class="mr-12 bg-pink-400 p-1 text-xs text-white">3rem a la derecha</div></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">mb-16 #67</h1>
+                <div class="bg-slate-200"><div class="mb-16 bg-pink-400 p-1 text-xs text-white">4rem abajo</div></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">ml-20 #68</h1>
+                <div class="bg-slate-200"><div class="ml-20 bg-pink-400 p-1 text-xs text-white">5rem a la izquierda</div></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">p-6 #69</h1>
+                <div class="bg-pink-400 p-6 text-xs text-white">1.5rem por dentro</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">pt-10 #70</h1>
+                <div class="bg-pink-400 pt-10 text-xs text-white">2.5rem arriba</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">pr-16 #71</h1>
+                <div class="bg-pink-400 pr-16 text-xs text-white">4rem a la derecha</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">pb-20 #72</h1>
+                <div class="bg-pink-400 pb-20 text-xs text-white">5rem abajo</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">pl-24 #73</h1>
+                <div class="bg-pink-400 pl-24 text-xs text-white">6rem a la izquierda</div>
+            </div>
+
+            <!-- ===== Tamaños (74 a 79) ===== -->
+            <div class="card">
+                <h1 class="tittle">w-1/2 #74</h1>
+                <div class="h-8 w-1/2 bg-pink-400"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">min-w-64 #75</h1>
+                <div class="h-8 min-w-64 bg-pink-400 text-xs text-white">16rem mínimo</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">max-w-3xl #76</h1>
+                <div class="h-8 w-full max-w-3xl bg-pink-400 text-xs text-white">Máximo 48rem (la tarjeta es más estrecha)</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">h-64 #77</h1>
+                <div class="h-64 w-10 bg-pink-400"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">min-h-screen #78</h1>
+                <div class="h-24 overflow-hidden rounded bg-slate-200">
+                    <div class="min-h-screen bg-pink-400 p-1 text-xs text-white">Mínimo: alto de la pantalla (aquí recortado)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">max-h-96 #79</h1>
+                <div class="max-h-96 overflow-y-auto bg-slate-200 p-1 text-xs">
+                    <div class="h-[500px] bg-pink-400 p-1 text-white">Contenido de 500px; la caja se corta a 24rem</div>
+                </div>
+            </div>
+
+            <!-- ===== Flexbox (80 a 90) ===== -->
+            <div class="card">
+                <h1 class="tittle">flex + gap-2 #80</h1>
+                <div class="flex gap-2">
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">flex-col #81</h1>
+                <div class="flex flex-col gap-1">
+                    <div class="h-4 bg-pink-400"></div>
+                    <div class="h-4 bg-pink-400"></div>
+                    <div class="h-4 bg-pink-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">flex-wrap #82</h1>
+                <div class="flex max-w-32 flex-wrap gap-1">
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">justify-between #83</h1>
+                <div class="flex justify-between">
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                    <div class="size-8 bg-pink-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">items-center #84</h1>
+                <div class="flex h-20 items-center gap-2 bg-slate-200 px-1">
+                    <div class="h-4 w-8 bg-pink-400"></div>
+                    <div class="h-8 w-8 bg-pink-400"></div>
+                    <div class="h-12 w-8 bg-pink-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">self-center #85</h1>
+                <div class="flex h-20 items-start gap-2 bg-slate-200 p-1">
+                    <div class="h-6 w-8 bg-pink-400"></div>
+                    <div class="h-6 w-8 self-center bg-yellow-400"></div>
+                    <div class="h-6 w-8 bg-pink-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">order-1 #86</h1>
+                <div class="flex gap-2">
+                    <div class="box w-10 text-center">1</div>
+                    <div class="box w-10 text-center">2</div>
+                    <div class="box order-1 w-10 text-center">3</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">content-center #87</h1>
+                <div class="flex h-24 w-32 content-center flex-wrap gap-1 bg-slate-200 p-1">
+                    <div class="size-6 bg-pink-400"></div>
+                    <div class="size-6 bg-pink-400"></div>
+                    <div class="size-6 bg-pink-400"></div>
+                    <div class="size-6 bg-pink-400"></div>
+                    <div class="size-6 bg-pink-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">shrink-0 #88</h1>
+                <div class="flex gap-1">
+                    <div class="shrink-0 bg-pink-400 p-1 text-xs text-white">No me encojo</div>
+                    <div class="min-w-0 bg-yellow-300 p-1 text-xs">Yo sí me adapto al espacio</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">grow #89</h1>
+                <div class="flex gap-2">
+                    <div class="h-8 w-8 bg-pink-400"></div>
+                    <div class="h-8 grow bg-yellow-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">basis-1/4 #90</h1>
+                <div class="flex gap-2">
+                    <div class="h-8 basis-1/4 bg-pink-400"></div>
+                    <div class="h-8 grow bg-yellow-400"></div>
+                </div>
+            </div>
+
+            <!-- ===== Grid (91 a 111) ===== -->
+            <div class="card">
+                <h1 class="tittle">grid #91</h1>
+                <div class="grid gap-1">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">grid-cols-2 #92</h1>
+                <div class="grid grid-cols-2 gap-1">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                    <div class="bg-pink-300 p-1 text-xs">4</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">grid-rows-3 + flow-col #93</h1>
+                <div class="grid h-24 grid-flow-col grid-rows-3 gap-1">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                    <div class="bg-pink-300 p-1 text-xs">4</div>
+                    <div class="bg-pink-300 p-1 text-xs">5</div>
+                    <div class="bg-pink-300 p-1 text-xs">6</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">auto-cols-auto #94</h1>
+                <div class="grid auto-cols-auto grid-flow-col gap-1">
+                    <div class="bg-pink-300 px-1 text-xs">Corto</div>
+                    <div class="bg-pink-300 px-4 text-xs">Más largo</div>
+                    <div class="bg-pink-300 px-2 text-xs">Medio</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">auto-rows-auto #95</h1>
+                <div class="grid auto-rows-auto gap-1">
+                    <div class="h-4 bg-pink-300"></div>
+                    <div class="h-8 bg-pink-300"></div>
+                    <div class="h-6 bg-pink-300"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">justify-self-center #96</h1>
+                <div class="grid h-20 grid-cols-2 gap-1 bg-slate-200 p-1">
+                    <div class="w-8 bg-pink-300"></div>
+                    <div class="w-8 justify-self-center bg-yellow-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">grid-cols-4 #97</h1>
+                <div class="grid grid-cols-4 gap-1">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                    <div class="bg-pink-300 p-1 text-xs">4</div>
+                    <div class="bg-pink-300 p-1 text-xs">5</div>
+                    <div class="bg-pink-300 p-1 text-xs">6</div>
+                    <div class="bg-pink-300 p-1 text-xs">7</div>
+                    <div class="bg-pink-300 p-1 text-xs">8</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">auto-cols-fr #100</h1>
+                <div class="grid h-12 grid-flow-col auto-cols-fr gap-1">
+                    <div class="bg-pink-300"></div>
+                    <div class="bg-pink-300"></div>
+                    <div class="bg-pink-300"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">auto-rows-fr #101</h1>
+                <div class="grid h-24 grid-rows-2 auto-rows-fr gap-1">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                    <div class="bg-pink-300 p-1 text-xs">4</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">gap-4 #102</h1>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                    <div class="bg-pink-300 p-1 text-xs">4</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">justify-items-center #103</h1>
+                <div class="grid h-20 grid-cols-2 justify-items-center gap-1 bg-slate-200 p-1">
+                    <div class="w-10 bg-pink-300"></div>
+                    <div class="w-10 bg-pink-300"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">items-start #104</h1>
+                <div class="grid h-20 grid-cols-2 items-start gap-1 bg-slate-200 p-1">
+                    <div class="h-6 bg-pink-300"></div>
+                    <div class="h-10 bg-pink-300"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">gap-x-4 #107</h1>
+                <div class="grid grid-cols-2 gap-x-4">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                    <div class="bg-pink-300 p-1 text-xs">4</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">gap-y-4 #108</h1>
+                <div class="grid grid-cols-2 gap-y-4">
+                    <div class="bg-pink-300 p-1 text-xs">1</div>
+                    <div class="bg-pink-300 p-1 text-xs">2</div>
+                    <div class="bg-pink-300 p-1 text-xs">3</div>
+                    <div class="bg-pink-300 p-1 text-xs">4</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">place-content-center #110</h1>
+                <div class="grid h-24 place-content-center bg-slate-200">
+                    <div class="bg-pink-300 px-2 text-xs">centro</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">place-items-center #111</h1>
+                <div class="grid h-24 grid-cols-2 place-items-center gap-1 bg-slate-200 p-1">
+                    <div class="size-8 bg-pink-300"></div>
+                    <div class="size-8 bg-yellow-400"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border #112</h1>
+                <div class="border border-pink-400 p-2 text-xs">1px por todos lados</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-t-2 #113</h1>
+                <div class="border-t-2 border-pink-400 p-2 text-xs">Solo arriba, 2px</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-r-4 #114</h1>
+                <div class="border-r-4 border-pink-400 p-2 text-xs">Solo a la derecha, 4px</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-b #115</h1>
+                <div class="border-b border-pink-400 p-2 text-xs">Solo abajo, 1px</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-l #116</h1>
+                <div class="border-l border-pink-400 p-2 text-xs">Solo a la izquierda, 1px</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">border-indigo-500/60 #117</h1>
+                <div class="border-2 border-indigo-500/60 p-2 text-xs">Índigo al 60%</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">divide-y #118</h1>
+                <div class="divide-y divide-pink-300">
+                    <div class="p-1 text-xs">Fila 1</div>
+                    <div class="p-1 text-xs">Fila 2</div>
+                    <div class="p-1 text-xs">Fila 3</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">divide-x #119</h1>
+                <div class="grid grid-cols-3 divide-x divide-pink-300">
+                    <div class="p-1 text-xs">A</div>
+                    <div class="p-1 text-xs">B</div>
+                    <div class="p-1 text-xs">C</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">divide-white/75 #120</h1>
+                <div class="divide-y divide-white/75 bg-slate-800 text-white">
+                    <div class="p-1 text-xs">Fila 1</div>
+                    <div class="p-1 text-xs">Fila 2</div>
+                    <div class="p-1 text-xs">Fila 3</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">divide-dashed #121</h1>
+                <div class="divide-y divide-dashed divide-pink-400">
+                    <div class="p-1 text-xs">Fila 1</div>
+                    <div class="p-1 text-xs">Fila 2</div>
+                    <div class="p-1 text-xs">Fila 3</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">divide-x-2 #122</h1>
+                <div class="grid grid-cols-3 divide-x-2 divide-pink-400">
+                    <div class="p-1 text-xs">A</div>
+                    <div class="p-1 text-xs">B</div>
+                    <div class="p-1 text-xs">C</div>
+                </div>
+            </div>
+
+            <!-- ===== Animaciones base y personalizadas (123 a 127) ===== -->
+            <div class="card">
+                <h1 class="tittle">backdrop-opacity-50 #123</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="backdrop-opacity-50 rounded bg-white/40 p-2 text-center text-xs">Fondo al 50%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-pulse #124</h1>
+                <div class="box animate-pulse text-center">Parpadeo suave</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-bounce-x #125</h1>
+                <div class="box mx-auto w-16 animate-bounce-x text-center">↔</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-ping-slow #126</h1>
+                <div class="mx-auto size-10 rounded-full bg-pink-500 animate-ping-slow"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-scale-y #127</h1>
+                <div class="box mx-auto w-16 animate-scale-y text-center">↕</div>
+            </div>
+
+            <!-- ===== Texto avanzado (128 a 134) ===== -->
+            <div class="card">
+                <h1 class="tittle">tracking-wider #128</h1>
+                <div class="tracking-wider">Espacio entre letras</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">word-spacing #129</h1>
+                <div class="[word-spacing:0.2em]">Más espacio entre palabras</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">leading-10 #130</h1>
+                <div class="leading-10">Primera línea<br>Segunda línea</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">align-baseline #131</h1>
+                <p class="text-xs">Normal <span class="text-2xl align-baseline">grande</span> normal</p>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">whitespace-nowrap #132</h1>
+                <div class="w-32 overflow-hidden whitespace-nowrap bg-slate-200 p-1 text-xs">Esto nunca salta de línea</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">break-words #133</h1>
+                <div class="w-32 break-words bg-slate-200 p-1 text-xs">Supercalifragilisticoespialidoso</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">wrap-normal #134</h1>
+                <div class="w-32 wrap-normal overflow-hidden bg-slate-200 p-1 text-xs">Supercalifragilisticoespialidoso</div>
+            </div>
+
+            <!-- ===== Posición (135 a 149) ===== -->
+            <div class="card">
+                <h1 class="tittle">visible #135</h1>
+                <div class="flex gap-2">
+                    <div class="invisible bg-pink-300 p-1 text-xs">invisible</div>
+                    <div class="visible bg-yellow-300 p-1 text-xs">visible</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">static #136</h1>
+                <div class="relative h-20 bg-slate-200 p-1">
+                    <div class="static top-8 left-8 bg-pink-400 p-1 text-xs text-white">static (top-8/left-8 no hacen nada)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">top-0 #137</h1>
+                <div class="relative h-20 bg-slate-200">
+                    <div class="absolute top-0 left-2 bg-pink-400 p-1 text-xs text-white">top-0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">right-0 #138</h1>
+                <div class="relative h-20 bg-slate-200">
+                    <div class="absolute top-2 right-0 bg-pink-400 p-1 text-xs text-white">right-0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">bottom-0 #139</h1>
+                <div class="relative h-20 bg-slate-200">
+                    <div class="absolute bottom-0 left-2 bg-pink-400 p-1 text-xs text-white">bottom-0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">left-0 #140</h1>
+                <div class="relative h-20 bg-slate-200">
+                    <div class="absolute top-2 left-0 bg-pink-400 p-1 text-xs text-white">left-0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">float-left #141</h1>
+                <div class="float-left mr-2 size-10 rounded bg-pink-400"></div>
+                <p class="text-xs">El texto se coloca al lado del bloque flotante y lo rodea.</p>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">clear-left #142</h1>
+                <div class="float-left size-8 bg-pink-400"></div>
+                <div class="bg-yellow-200 p-1 text-xs">Al lado</div>
+                <div class="clear-left bg-yellow-400 p-1 text-xs">Debajo del flotante</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">hidden #143</h1>
+                <div class="hidden bg-pink-400 p-1">No me ves</div>
+                <div class="bg-slate-200 p-1 text-xs">Ocupo el espacio de arriba</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">absolute inset-0 #144</h1>
+                <div class="relative h-20 bg-linear-to-r from-pink-500 to-yellow-400">
+                    <div class="absolute inset-0 grid place-items-center bg-slate-900/50 text-xs text-white">Cubro todo</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">inset-x-0 #145</h1>
+                <div class="relative h-20 bg-slate-200">
+                    <div class="absolute inset-x-0 bottom-0 bg-pink-400 p-1 text-center text-xs text-white">De izquierda a derecha</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">inset-y-0 #146</h1>
+                <div class="relative h-20 bg-slate-200">
+                    <div class="absolute inset-y-0 left-0 grid place-items-center bg-pink-400 px-1 text-xs text-white">De arriba a abajo</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">inset-x-auto #147</h1>
+                <div class="relative h-20 bg-slate-200 p-2">
+                    <div class="absolute inset-x-auto top-8 bg-pink-400 p-1 text-xs text-white">auto (mide su contenido)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">inset-y-auto #148</h1>
+                <div class="relative h-20 bg-slate-200 p-2">
+                    <div class="absolute inset-y-auto left-2 bg-pink-400 p-1 text-xs text-white">auto (alto del contenido)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">place-self-center #149</h1>
+                <div class="grid h-24 grid-cols-2 place-items-start gap-1 bg-slate-200 p-1">
+                    <div class="size-8 bg-pink-300"></div>
+                    <div class="size-8 place-self-center bg-yellow-400"></div>
+                </div>
+            </div>
+
+            <!-- ===== Filtros de fondo (150 a 159) ===== -->
+            <div class="card">
+                <h1 class="tittle">backdrop-blur #150</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-blur-[8px]">8px</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-brightness-75 #151</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-brightness-75">75% brillo</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-contrast-125 #152</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-contrast-125">125% contraste</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-grayscale-50 #153</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-grayscale-50">50% gris</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-hue-rotate-90 #154</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-hue-rotate-90">90°</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-invert #155</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-invert">Invertido</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-opacity-50 #156</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/60 p-2 text-center text-xs backdrop-opacity-50">50%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-saturate-150 #157</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-saturate-150">150%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">backdrop-sepia-50 #158</h1>
+                <div class="rounded bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="rounded bg-white/30 p-2 text-center text-xs backdrop-sepia-50">Sepia 50%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">mix-blend-darken #159</h1>
+                <div class="bg-linear-to-r from-pink-500 to-yellow-400 p-2">
+                    <div class="bg-white p-2 text-center text-xs mix-blend-darken">Más oscuro</div>
+                </div>
+            </div>
+
+            <!-- ===== Animaciones (160 a 189) ===== -->
+            <div class="card">
+                <h1 class="tittle">hover:animate-none #160</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-spin hover:animate-none"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">direction: reverse #161</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-spin [animation-direction:reverse]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-zoom-in #162</h1>
+                <div class="box mx-auto w-20 animate-zoom-in text-center">Zoom</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-slide-up #163</h1>
+                <div class="box animate-slide-up text-center">Sube</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-fade-in #164</h1>
+                <div class="box animate-fade-in text-center">Aparece</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-rotate-45 #165</h1>
+                <div class="box mx-auto w-20 animate-rotate-45 text-center">45°</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-slide-fade-up #166</h1>
+                <div class="box animate-slide-fade-up text-center">Sube y aparece</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-bounce-scale-down #167</h1>
+                <div class="box mx-auto w-20 animate-bounce-scale-down text-center">Boom</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-flip-x #168</h1>
+                <div class="box mx-auto w-20 animate-flip-x text-center">Voltea</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-pulse-slow #169</h1>
+                <div class="box animate-pulse-slow text-center">Pulso lento</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-wiggle-slow #170</h1>
+                <div class="box mx-auto w-20 animate-wiggle-slow text-center">Wiggle</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-blink-slow #171</h1>
+                <div class="box animate-blink-slow text-center">Parpadeo</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-slide-bounce-up #172</h1>
+                <div class="box animate-slide-bounce-up text-center">Sube y rebota</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-heartbeat-slow #173</h1>
+                <div class="box mx-auto w-16 animate-heartbeat-slow text-center">♥</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-rubberband-slow #174</h1>
+                <div class="box mx-auto w-20 animate-rubberband-slow text-center">Liga</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-head-shake-slow #175</h1>
+                <div class="box mx-auto w-20 animate-head-shake-slow text-center">Shake</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-jello-slow #176</h1>
+                <div class="box mx-auto w-20 animate-jello-slow text-center">Jello</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animate-tada-slow #177</h1>
+                <div class="box mx-auto w-20 animate-tada-slow text-center">Tada</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">bounce-in-left #178</h1>
+                <div class="box mx-auto w-20 animate-bounce-in-left text-center">←</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">bounce-in-right #179</h1>
+                <div class="box mx-auto w-20 animate-bounce-in-right text-center">→</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">bounce-in-top #180</h1>
+                <div class="box mx-auto w-20 animate-bounce-in-top text-center">↑</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">bounce-in-bottom #181</h1>
+                <div class="box mx-auto w-20 animate-bounce-in-bottom text-center">↓</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">fade-in-left #182</h1>
+                <div class="box mx-auto w-20 animate-fade-in-left text-center">←</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">fade-in-right #183</h1>
+                <div class="box mx-auto w-20 animate-fade-in-right text-center">→</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">fade-in-top #184</h1>
+                <div class="box mx-auto w-20 animate-fade-in-top text-center">↑</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">fade-in-bottom #185</h1>
+                <div class="box mx-auto w-20 animate-fade-in-bottom text-center">↓</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">slide-in-left #186</h1>
+                <div class="box mx-auto w-20 animate-slide-in-left text-center">←</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">slide-in-right #187</h1>
+                <div class="box mx-auto w-20 animate-slide-in-right text-center">→</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">slide-in-top #188</h1>
+                <div class="box mx-auto w-20 animate-slide-in-top text-center">↑</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">slide-in-bottom #189</h1>
+                <div class="box mx-auto w-20 animate-slide-in-bottom text-center">↓</div>
+            </div>
+
+            <!-- ===== Scroll y 3D (190 a 204) ===== -->
+            <div class="card">
+                <h1 class="tittle">hyphens-auto #190</h1>
+                <p class="w-32 hyphens-auto text-xs" lang="es">electroencefalografista</p>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">overscroll-auto #191</h1>
+                <div class="h-16 overflow-y-auto overscroll-auto bg-slate-200 p-1 text-xs">
+                    <div class="h-40">Desliza hasta el final; el scroll sigue siendo normal.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">overscroll-x-auto #192</h1>
+                <div class="h-16 overflow-x-auto overscroll-x-auto whitespace-nowrap bg-slate-200 p-1 text-xs">
+                    <div class="w-96">Contenido ancho para hacer scroll horizontal normal</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">overscroll-y-auto #193</h1>
+                <div class="h-16 overflow-y-auto overscroll-y-auto bg-slate-200 p-1 text-xs">
+                    <div class="h-40">Scroll vertical normal al llegar al borde.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-auto #194</h1>
+                <div class="h-16 overflow-y-auto scroll-auto bg-slate-200 p-1 text-xs">
+                    <div class="h-40">Desplazamiento normal, sin animación suave.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">transform-3d #195</h1>
+                <div class="[perspective:500px]">
+                    <div class="flex transform-3d gap-2">
+                        <div class="box rotate-y-30 text-center">A</div>
+                        <div class="box rotate-y-30 text-center">B</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">perspective-origin-bottom #196</h1>
+                <div class="[perspective:400px] perspective-origin-bottom py-2">
+                    <div class="box mx-auto w-20 rotate-x-30 text-center">3D</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">transform-box #197</h1>
+                <svg class="mx-auto size-16 origin-center rotate-12 [transform-box:border-box]" viewBox="0 0 100 100">
+                    <rect x="10" y="10" width="80" height="80" fill="#ec4899"></rect>
+                </svg>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">animation-timing-function #198</h1>
+                <div class="mx-auto size-10 rounded bg-pink-500 animate-spin [animation-timing-function:ease-out]"></div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">origin-left #199</h1>
+                <div class="box mx-auto w-24 origin-left rotate-12 text-center">Desde la izquierda</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">origin-top #200</h1>
+                <div class="box mx-auto w-20 origin-top rotate-12 text-center">Desde arriba</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">origin-bottom #201</h1>
+                <div class="box mx-auto w-20 origin-bottom rotate-12 text-center">Desde abajo</div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">object-contain #202</h1>
+                <div class="h-20 w-full bg-slate-200">
+                    <img class="h-full w-full object-contain" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='100'%3E%3Crect width='200' height='100' fill='%23ec4899'/%3E%3Ccircle cx='100' cy='50' r='30' fill='%23facc15'/%3E%3C/svg%3E" alt="Ejemplo">
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">object-cover #203</h1>
+                <div class="h-20 w-full bg-slate-200">
+                    <img class="h-full w-full object-cover object-center" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='100'%3E%3Crect width='200' height='100' fill='%23ec4899'/%3E%3Ccircle cx='100' cy='50' r='30' fill='%23facc15'/%3E%3C/svg%3E" alt="Ejemplo">
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">touch-none #204</h1>
+                <div class="box touch-none text-center text-xs">Los gestos táctiles no hacen scroll (solo en pantalla táctil)</div>
+            </div>
+
+            <!-- ===== Scroll snap (205 a 216) ===== -->
+            <div class="card">
+                <h1 class="tittle">snap-x + snap-mandatory #205</h1>
+                <div class="flex h-16 snap-x snap-mandatory gap-2 overflow-x-auto bg-slate-200 p-1">
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">2</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">3</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">4</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">snap-start #206</h1>
+                <div class="flex h-16 snap-x snap-mandatory gap-2 overflow-x-auto bg-slate-200 p-1">
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">inicio</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">inicio</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">inicio</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-p-4 #207</h1>
+                <div class="flex h-16 snap-x snap-mandatory scroll-p-4 gap-2 overflow-x-auto bg-slate-200 py-1">
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">2</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">3</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-m-4 #208</h1>
+                <div class="flex h-16 snap-x snap-mandatory gap-2 overflow-x-auto bg-slate-200 p-1">
+                    <div class="grid w-36 shrink-0 snap-start scroll-m-4 place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start scroll-m-4 place-items-center bg-pink-300 text-xs">2</div>
+                    <div class="grid w-36 shrink-0 snap-start scroll-m-4 place-items-center bg-pink-300 text-xs">3</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-mt-4 #209</h1>
+                <div class="flex h-16 snap-x snap-mandatory gap-2 overflow-x-auto bg-slate-200 p-1">
+                    <div class="grid w-36 shrink-0 snap-start scroll-mt-4 place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start scroll-mt-4 place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-mr-4 #210</h1>
+                <div class="flex h-16 snap-x snap-mandatory gap-2 overflow-x-auto bg-slate-200 p-1">
+                    <div class="grid w-36 shrink-0 snap-start scroll-mr-4 place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start scroll-mr-4 place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-mb-4 #211</h1>
+                <div class="flex h-16 snap-x snap-mandatory gap-2 overflow-x-auto bg-slate-200 p-1">
+                    <div class="grid w-36 shrink-0 snap-start scroll-mb-4 place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start scroll-mb-4 place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-ml-4 #212</h1>
+                <div class="flex h-16 snap-x snap-mandatory gap-2 overflow-x-auto bg-slate-200 p-1">
+                    <div class="grid w-36 shrink-0 snap-start scroll-ml-4 place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start scroll-ml-4 place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-pt-4 #213</h1>
+                <div class="flex h-16 snap-x snap-mandatory scroll-pt-4 gap-2 overflow-x-auto bg-slate-200">
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-pr-4 #214</h1>
+                <div class="flex h-16 snap-x snap-mandatory scroll-pr-4 gap-2 overflow-x-auto bg-slate-200">
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-pb-4 #215</h1>
+                <div class="flex h-16 snap-x snap-mandatory scroll-pb-4 gap-2 overflow-x-auto bg-slate-200">
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1 class="tittle">scroll-pl-4 #216</h1>
+                <div class="flex h-16 snap-x snap-mandatory scroll-pl-4 gap-2 overflow-x-auto bg-slate-200">
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">1</div>
+                    <div class="grid w-36 shrink-0 snap-start place-items-center bg-pink-300 text-xs">2</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>
